@@ -1,0 +1,56 @@
+{
+    "name": "Boardustry",
+    "short_name": "Boardustry",
+    "id": "/Boardustry/",
+    "start_url": "/Boardustry/",
+    "display": "fullscreen",
+    "orientation": "landscape",
+    "theme_color": "#1D3557",
+    "background_color": "#1D3557",
+    "description": "Brand New and Innovative Gameplay - Combining Rock-Paper-Scissors Mechanics with Tower Defense Strategy, Emphasizing Resource Management in a Turn-based Strategy Game.",
+    "icons": [
+      {
+        "src": "img/icons/Boardustry48.png",
+        "sizes": "48x48",
+        "type": "image/png",
+        "purpose": "any"
+      },
+      {
+        "src": "img/icons/Boardustry72.png",
+        "sizes": "72x72",
+        "type": "image/png",
+        "purpose": "any"
+      },
+      {
+        "src": "img/icons/Boardustry96.png",
+        "sizes": "96x96",
+        "type": "image/png",
+        "purpose": "any"
+      },
+      {
+        "src": "img/icons/Boardustry144.png",
+        "sizes": "144x144",
+        "type": "image/png",
+        "purpose": "any"
+      },
+      {
+        "src": "img/icons/Boardustry168.png",
+        "sizes": "168x168",
+        "type": "image/png",
+        "purpose": "any"
+      },
+      {
+        "src": "img/icons/Boardustry192.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "any maskable"
+      },
+      {
+        "src": "img/icons/Boardustry512.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any maskable"
+      }
+    ]
+}
+  

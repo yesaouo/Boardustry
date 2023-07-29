@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="theme-color" content="#1D3557">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Brand New and Innovative Gameplay - Combining Rock-Paper-Scissors Mechanics with Tower Defense Strategy, Emphasizing Resource Management in a Turn-based Strategy Game.">
+    <title>Boardustry</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="shortcut icon" href="img/icons/Boardustry48.png">
+    <link rel="apple-touch-icon" href="img/icons/Boardustry192.png">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <audio id="bg-music" loop>
+        <source src="audio/High-Seas-Adventures.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <img id="unit-gamma" width="50" height="50" src="img/unit/gamma.png" alt="Unit Gamma"></div>
+    <div class="sign-container">
+        <div class="header">
+            <span>TGDY</span>
+            <img width="30" height="30" src="img/tgdy.png" alt="Logo">
+        </div>
+        <div class="buttons">
+            <button class="signup-button" onclick="ChooseSignUp()">SignUp</button>
+            <button class="signin-button focus" onclick="ChooseSignIn()">SignIn</button>
+        </div>
+        <div class="sign-content">
+            <div class="login-view">
+                <input type="text" id="login-account" placeholder="Account">
+                <input type="password" id="login-password" placeholder="Password">
+                <div id="login-error"></div>
+                <button id="login-btn">Log In</button>
+            </div>
+            <div class="registration-view" style="display: none;">
+                <input type="text" id="registration-username" placeholder="Username">
+                <input type="text" id="registration-account" placeholder="Account">
+                <input type="password" id="registration-password" placeholder="Password">
+                <div id="registration-error"></div>
+                <button id="registration-btn">Register</button>
+            </div>
+        </div>
+    </div>
+    <div class="page-container" style="display: none;">
+        <div class="page-header">
+            <div class="capsule">
+                <img src="img/icon/dollar.png" alt="Dollar Icon">
+                <span>0</span>
+            </div>
+            <div class="capsule">
+                <img src="img/icon/diamond.png" alt="Diamond Icon">
+                <span>0</span>
+            </div>
+        </div>
+        <div class="page-content">
+            <div class="home-container">
+                <button class="rank-btn" onclick="alert('Temporarily unavailable')">
+                    <img width="144" height="144" src="img/rank/chevron (0).png" alt="Rank Image">
+                </button>
+                <div class="leaderboard">
+                    <h2>Top Three</h2>
+                    <table>
+                        <tr><td>Player 1</td><td>300 RP</td></tr>
+                        <tr><td>Player 2</td><td>200 RP</td></tr>
+                        <tr><td>Player 3</td><td>100 RP</td></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="menu-container" style="display: none;">
+                <button aria-label="News" id="news-btn">News</button>
+                <button aria-label="Database" onclick="Database()">Database</button>
+                <input id="file" type="file" accept="image/*" style="display: none" />
+                <button aria-label="Upload Photo" type="button" onclick="file.click()">Upload Photo</button>
+                <button aria-label="Report Bug" onclick="ReportBug()">Report Bug</button>
+                <button aria-label="GitHub" onclick="GitHub()">GitHub</button>
+                <button aria-label="Log Out" id="logout-btn">Log Out</button>
+            </div>
+            <div class="formation-container" style="display: none;">
+                <div class="button-row">
+                    <button id="download-btn">
+                        <img width="50" height="50" id="icloud-down" src="img/icon/icloud.down.fill.png" alt="Download">
+                    </button>
+                    <button id="uturn-btn">
+                        <img width="50" height="50" src="img/icon/uturn.png" alt="Remove">
+                    </button>
+                    <button id="upload-btn" disabled>
+                        <img width="50" height="50" id="icloud-up" src="img/icon/icloud.up.png" alt="Upload">
+                    </button>
+                    <p class="counter">0/5</p>
+                </div>
+                <div class="formation-board">
+                    <table class="formation-table">
+                        <tr>
+                            <td><div class="formation-tile"></div></td>
+                            <td><div class="formation-tile"></div></td>
+                            <td><div class="formation-tile"></div></td>
+                            <td><div class="formation-tile"></div></td>
+                            <td><div class="formation-tile"></div></td>
+                            <td><div class="formation-tile"></div></td>
+                            <td><div class="formation-tile"></div></td>
+                            <td><div class="formation-tile"></div></td>
+                            <td><div class="formation-tile"></div></td>
+                        </tr>
+                        <tr>
+                            <td><div class="formation-tile"></div></td>
+                            <td><div class="formation-tile"></div></td>
+                            <td><div class="formation-tile"></div></td>
+                            <td><div class="formation-tile"></div></td>
+                            <td><div class="formation-tile"></div></td>
+                            <td><div class="formation-tile"></div></td>
+                            <td><div class="formation-tile"></div></td>
+                            <td><div class="formation-tile"></div></td>
+                            <td><div class="formation-tile"></div></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="formation-unit-selection">
+                    <button class="unit-btn" aria-label="mace">
+                        <img width="50" height="50" src="img/unit/mace.png" alt="mace">
+                    </button>
+                    <button class="unit-btn" aria-label="pulsar">
+                        <img width="50" height="50" src="img/unit/pulsar.png" alt="pulsar">
+                    </button>
+                    <button class="unit-btn" aria-label="atrax">
+                        <img width="50" height="50" src="img/unit/atrax.png" alt="atrax">
+                    </button>
+                </div>
+            </div>
+            <div class="joingame-container" style="display: none;">
+                <div class="rooms-container">
+                    <div class="search-container">
+                        <input id="searchID" type="text" placeholder="Search by ID">
+                        <img width="25" height="25" src="img/icon/search.png" alt="Search">
+                    </div>
+                    <div id="room-list"></div>
+                    <button onclick="addRoom()"><img width="24" height="24" src="img/icon/plus.png"></button>
+                </div>
+                <div class="addroom-container" style="display: none;">
+                    <label>地圖大小:</label>
+                    <select id="map-size">
+                        <option value="15">小</option>
+                        <option value="25">中</option>
+                        <option value="35">大</option>
+                    </select>
+                    <label>遊玩人數:</label>
+                    <select id="player-count">
+                        <option value="2">2</option>
+                        <option value="4">4</option>
+                    </select>
+                    <label>公開房間:</label>
+                    <select id="public-room">
+                        <option value="true">是</option>
+                        <option value="false">否</option>
+                    </select>
+                    <div>
+                        <button id="cancel-btn" onclick="cancelAddRoom()">取消</button>
+                        &nbsp
+                        <button id="create-btn">創建</button>
+                    </div>
+                </div>
+                <div class="room-container" style="display: none;">
+                    <div class="room-header"></div>
+                    <div class="room-content"></div>
+                    <div class="room-buttons">
+                        <button id="leave-btn">退出</button>
+                        &nbsp
+                        <button id="prepare-btn">準備</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-group">
+            <button aria-label="Join Game" onclick="JoinGame()">
+                <img width="28" height="28" src="img/icon/add.png" alt="Add Icon">
+                <span>Join Game</span>
+            </button>
+            <button aria-label="Formation" onclick="Formation()">
+                <img width="28" height="28" src="img/icon/hammer.png" alt="Hammer Icon">
+                <span>Formation</span>
+            </button>
+            <button aria-label="Home" onclick="Home()">
+                <img width="28" height="28" src="img/icon/home.png" alt="Home Icon">
+                <span>Home</span>
+            </button>
+            <button aria-label="Shop" onclick="Shop()">
+                <img width="28" height="28" src="img/icon/donate.png" alt="Donate Icon">
+                <span>Shop</span>
+            </button>
+            <button aria-label="Menu" onclick="Menu()">
+                <img width="28" height="28" src="img/icon/book.png" alt="Book Icon">
+                <span>Menu</span>
+            </button>
+        </div>
+    </div>
+    <div class="news-container" style="display: none;">
+        <div class="header">
+            <p class="menu-title">News</p>
+            <hr style="border-color: yellow;">
+        </div>
+        <div class="content">
+            <div class="news-list" style="display: flex;"></div>
+            <textarea id="news-content" disabled></textarea>
+            <div class="news-time"></div>
+        </div>
+        <button class="news-back" onclick="NewsBack()">
+            <img width="25" height="25" src="img/icon/arrow.left.png" alt="Back">
+            <span>Back</span>
+        </button>
+    </div>
+    <div class="database-container" style="display: none;">
+        <div class="header">
+            <p class="menu-title">Database</p>
+            <hr style="border-color: yellow;">
+        </div>
+        <div class="database-units">
+            <img class="square-img" src="img/database/1.png">
+            <img class="square-img" src="img/database/2.png">
+            <img class="square-img" src="img/database/3.png">
+            <img class="rectangle-img" src="img/database/45.png">
+        </div>
+        <div class="database-blocks" style="display: none;">
+            <img src="img/database/6.png">
+            <img src="img/database/7.png">
+            <img src="img/database/8.png">
+            <img src="img/database/9.png">
+            <img src="img/database/10.png">
+        </div>
+        <div class="footer">
+            <button class="now-display" disabled>Units</button>
+            <hr style="border-color: yellow;">
+            <button class="change-display" onclick="ChangeDisplay()">Blocks</button>
+        </div>
+        <button class="database-back" onclick="DatabaseBack()">
+            <img width="25" height="25" src="img/icon/arrow.left.png" alt="Back">
+            <span>Back</span>
+        </button>
+    </div>
+    <div class="game-container" style="display: none;">
+        <div class="game-header"></div>
+        <div class="game-subheader">
+            <button onclick="showMenu()">
+                <img width="40" height="40" src="img/icon/menu.png" alt="Menu">
+            </button>
+            <div class="turn-indicator"></div>
+            <button id="end-round-btn">
+                <img width="40" height="40" src="img/icon/checkmark.fill.png" alt="Checkmark">
+            </button>
+        </div>
+        <div class="game-board"><table id="board"></table></div>
+        <div class="footer">
+            <div class="game-selection"></div>
+            <div class="game-selection"></div>
+            <div class="game-selection"></div>
+            <div class="game-selection"></div>
+            <button id="game-switch">
+                <img width="100%" height="100%" src="img/icon/up-down.png">
+            </button>
+        </div>
+    </div>
+    <div class="game-menu-container" style="display: none;">
+        <div class="header">
+            <p class="menu-title">Menu</p>
+            <hr style="border-color: yellow;">
+        </div>
+        <div class="game-menu-content">
+            <button onclick="closeMenu()">
+                <img width="25" height="25" src="img/icon/play.png" alt="Back">
+                <span>Back</span>
+            </button>
+            <button onclick="Database()">
+                <img width="25" height="25" src="img/icon/book.closed.png" alt="Back">
+                <span>Database</span>
+            </button>
+            <button id="game-quit">
+                <img width="25" height="25" src="img/icon/portrait.png" alt="Back">
+                <span>Quit</span>
+            </button>
+            <div>
+                <img width="16" height="16" src="img/icon/mute.png" alt="Mute Icon">
+                <input type="range" min="0" max="1" step="0.1" value="0.5" id="volume-slider" aria-label="volume slider">
+                <img width="16" height="16" src="img/icon/volume.png" alt="Volume Icon">
+            </div>
+        </div>
+    </div>
+    <script src="JavaScript/index.js"></script>
+    <script src="JavaScript/background.js"></script>
+    <script type="module" src="JavaScript/firebase.js"></script>
+</body>
+</html>

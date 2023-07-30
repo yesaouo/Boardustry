@@ -29,7 +29,7 @@ button {cursor: pointer;}
     border: 10px solid #1d3557;
     padding: 20px;
 }
-.sign-container .header {
+.sign-header {
     width: 100%;
     background-color: #1d3557;
     display: flex;
@@ -39,11 +39,11 @@ button {cursor: pointer;}
     margin-bottom: 20px;
     border-radius: 5px;
 }
-.header span {
+.sign-header span {
     color: #FFFFFF;
     font-weight: bold;
 }
-.buttons {
+.sign-buttons {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -51,7 +51,7 @@ button {cursor: pointer;}
     border: 3px solid #457b9d;
     background-color: #FFFFFF;
 }
-.buttons button {
+.sign-buttons button {
     flex: 1;
     padding: 10px;
     border: none;
@@ -67,8 +67,8 @@ button {cursor: pointer;}
     flex-direction: column;
 }
 .login-view input, .registration-view input {
-    width: 90%;
-    padding: 10px;
+    width: 94%;
+    padding: 10px 3%;
     border: 1px solid #808080;
     border-radius: 5px;
     margin-bottom: 10px;
@@ -81,12 +81,19 @@ button {cursor: pointer;}
 .login-view button, .registration-view button {
     padding: 10px;
     border: none;
-    background-color: #e63946;
     color: #FFFFFF;
     font-weight: bold;
     border-radius: 5px;
 }
-
+.login-buttons {
+    display: flex;
+}
+#login-btn, #registration-btn {
+    background-color: #e63946;
+}
+#login-google-btn {
+    background-color: #0F9D58;
+}
 
 .page-container {
     width: 100%;

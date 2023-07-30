@@ -23,7 +23,7 @@ const analytics = getAnalytics(app);
 const auth = getAuth();
 const db = getFirestore(app);
 
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updateProfile, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updateProfile, signOut, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 import { collection, doc, setDoc, getDoc, getDocs, query, orderBy, limit, where, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"; 
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js";
 onAuthStateChanged(auth, (user) => {
@@ -80,6 +80,31 @@ registrationBtn.onclick = function (e) {
 logoutBtn.onclick = function (e) {
     LogOut();
 };
+loginGoogleBtn.onclick = function (e) {
+    const providerGoogle = new GoogleAuthProvider();
+    signInWithPopup(auth, providerGoogle)
+    .then(async (result) => {
+        const user = result.user;
+        const docRef = doc(db, "users", user.email);
+        const docSnap = await getDoc(docRef);
+        if (!docSnap.exists()) {
+            await setDoc(doc(db, "users", user.email), {
+                name: user.displayName,
+                rank: 0,
+                coin: 0,
+                diamond: 0,
+                formate: [  
+                    {name: "pulsar", player: 0, posX: 2, posY: 0},
+                    {name: "atrax", player: 0, posX: 3, posY: 1},
+                    {name: "mace", player: 0, posX: 4, posY: 0},
+                    {name: "atrax", player: 0, posX: 5, posY: 1},
+                    {name: "pulsar", player: 0, posX: 6, posY: 0}
+                ]
+            });
+        }
+        UserSignedIn();
+    }).catch((error) => {loginError.innerHTML = error.message;});
+}
 
 async function uploadImage() {
     const fileInput = file.files[0];

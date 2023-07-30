@@ -19,11 +19,11 @@
     </audio>
     <img id="unit-gamma" width="50" height="50" src="img/unit/gamma.png" alt="Unit Gamma"></div>
     <div class="sign-container">
-        <div class="header">
+        <div class="sign-header">
             <span>TGDY</span>
             <img width="30" height="30" src="img/tgdy.png" alt="Logo">
         </div>
-        <div class="buttons">
+        <div class="sign-buttons">
             <button class="signup-button" onclick="ChooseSignUp()">SignUp</button>
             <button class="signin-button focus" onclick="ChooseSignIn()">SignIn</button>
         </div>
@@ -32,7 +32,11 @@
                 <input type="text" id="login-account" placeholder="Account">
                 <input type="password" id="login-password" placeholder="Password">
                 <div id="login-error"></div>
-                <button id="login-btn">Log In</button>
+                <div class="login-buttons">
+                    <button id="login-btn">Log In</button>
+                    <div class="spacer"></div>
+                    <button id="login-google-btn">SIGN IN WITH GOOGLE</button>
+                </div>
             </div>
             <div class="registration-view" style="display: none;">
                 <input type="text" id="registration-username" placeholder="Username">

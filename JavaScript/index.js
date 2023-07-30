@@ -17,6 +17,7 @@ const registrationPassword = document.getElementById('registration-password');
 const loginError = document.getElementById('login-error');
 const registrationError = document.getElementById('registration-error');
 const loginBtn = document.getElementById('login-btn');
+const loginGoogleBtn = document.getElementById('login-google-btn');
 const registrationBtn = document.getElementById('registration-btn');
 const signupButton = document.querySelector(".signup-button");
 const signinButton = document.querySelector(".signin-button");

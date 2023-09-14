@@ -573,7 +573,7 @@ class GameBoard {
         this.lastPick = null;
         this.unitChoose = null;
         this.blockChoose = null;
-        this.switchDisplay();
+        this.switchClosed();
         this.createTurnIndicator();
         this.createGameBoard();
         gameQuit.onclick = (e) => {
@@ -713,9 +713,9 @@ class GameBoard {
             if (player == this.me) {
                 if (this.lastPick == tile && unitName == 'poly') {
                     this.updatePoly(index);
-                    this.clearCanMoves();
+                    this.switchClosed();
                 } else {
-                    this.clearCanMoves();
+                    this.switchClosed();
                     this.lastPick = tile;
                     this.moves[unitName]?.forEach((move) => {
                         let x = col + move[0];
@@ -748,10 +748,6 @@ class GameBoard {
         } else {
             this.moveUnit(index, tile, img, col, row);
         }
-    }
-    clearCanMoves() {
-        this.isSwitch = false;
-        this.switchDisplay();
     }
     clearCanBuild() {
         this.lastPick = null;
@@ -845,7 +841,7 @@ class GameBoard {
                 tile.classList.add(`player${this.me}`);
                 lastImg.style.removeProperty('transform');
                 tile.appendChild(lastImg);
-                this.clearCanMoves();
+                this.switchClosed();
                 this.updateUnit(index, lastIndex);
                 this.isMove = false;
             }, 1000);
@@ -865,23 +861,21 @@ class GameBoard {
                 this.resourceMinusCost(GameBoard.blockNames[this.blockChoose+1]);
             }
         } else {
-            this.clearCanMoves();
+            this.switchClosed();
         }
     }
     buildUnit() {
         this.clearCanBuild();
-        let cols = [Math.floor(this.width/2), Math.floor(this.width/2), 0, this.width-1];
-        let rows = [this.height-1, 0, Math.floor(this.height/2), Math.floor(this.height/2)];
-        let col = cols[this.me];
-        let row = rows[this.me];
-        let moves = [[0, 1], [1, 0], [0, -1], [-1, 0], [1, 1], [1, -1], [-1, -1], [-1, 1]];
+        const col = [Math.floor(this.width/2), Math.floor(this.width/2), 0, this.width-1][this.me];
+        const row = [this.height-1, 0, Math.floor(this.height/2), Math.floor(this.height/2)][this.me];
+        const moves = [[0, 1], [1, 0], [0, -1], [-1, 0], [1, 1], [1, -1], [-1, -1], [-1, 1]];
         moves.forEach((move) => {
-            let x = col + move[0];
-            let y = row + move[1];
+            const x = col + move[0];
+            const y = row + move[1];
             if (x >= 0 && y >= 0 && x < this.width && y < this.height) {
-                let targetPos = x + y * this.width;
-                let targetTile = this.tiles[targetPos];
-                let targetImg = targetTile.querySelector('img');
+                const targetPos = x + y * this.width;
+                const targetTile = this.tiles[targetPos];
+                const targetImg = targetTile.querySelector('img');
                 if (!targetImg) {
                     targetTile.classList.add('canmove');
                     this.canMoves.push(targetPos);
@@ -906,8 +900,8 @@ class GameBoard {
         this.resources['titanium'] -= GameBoard.allCosts[name][2];
         this.resources['silicon'] -= GameBoard.allCosts[name][3];
         this.resources['energy'] -= GameBoard.allCosts[name][4];
+        this.switchClosed();
         this.createTurnIndicator();
-        this.clearCanMoves();
         this.updateGameToFirestore();
     }
     checkAllEnergyZero() {
@@ -927,60 +921,66 @@ class GameBoard {
         ) {return false;}
         return true;
     }
+
+    switchClosed() {
+        this.clearCanBuild();
+        this.isSwitch = false;
+        this.unitChoose = null;
+        this.blockChoose = null;
+        gameSelections.forEach((select, index) => {
+            select.onclick = (e) => {};
+            select.classList.remove('can-choose');
+            select.classList.remove('cant-choose');
+            select.innerHTML = `<img src="img/item/${GameBoard.resourceNames[index]}.png">${this.resources[GameBoard.resourceNames[index]]}`;
+        });
+    }
     switchDisplay() {
         if (this.isSwitch) {
-            let shows = GameBoard.unitNames;
-            let choose = this.unitChoose;
-            if (choose == 3) {
-                shows = GameBoard.blockNames.slice(1);
-                choose = this.blockChoose;
-            }
+            let shows = (this.unitChoose && this.unitChoose === 3) ? GameBoard.blockNames.slice(1) : GameBoard.unitNames;
             gameSelections.forEach((select, index) => {
-                if (index != choose) {
-                    select.classList.remove('can-choose');
-                    select.classList.remove('cant-choose');
-                }
+                select.classList.remove('can-choose');
+                select.classList.remove('cant-choose');
                 select.innerHTML = `<img src="img/unit/${shows[index]}.png">`;
+                if (this.unitChoose) {
+                    if (this.unitChoose === 3) {
+                        if (this.blockChoose && this.blockChoose === index) {
+                            select.classList.add('can-choose');
+                        }
+                    } else if (this.unitChoose === index) {
+                        select.classList.add('can-choose');
+                    }
+                }
                 if (!this.checkResourcesEnough(shows[index])) {
                     select.classList.add('cant-choose');
                 }
 
                 select.onclick = (e) => {
-                    if (select.classList.contains('can-choose')) {
-                        select.classList.remove('can-choose');
+                    this.clearCanBuild();
+                    if (this.resources['energy'] <= 0 || select.classList.contains('cant-choose')) {
+                        this.switchClosed();
+                    } else if (select.classList.contains('can-choose')) {
                         this.unitChoose = null;
                         this.blockChoose = null;
                         this.clearCanBuild();
+                        this.switchDisplay();
                     } else {
-                        if (select.classList.contains('cant-choose')) {
-                            this.isSwitch = false;
-                        } else {
-                            if (this.unitChoose != 3) {
-                                this.unitChoose = index;
-                            } else {
-                                this.blockChoose = index;
-                            }
-                            if (index != 3 && this.resources['energy'] > 0) {
-                                select.classList.add('can-choose');
+                        if (!this.unitChoose || (this.unitChoose && this.unitChoose !== 3)) {
+                            this.unitChoose = index;
+                            this.blockChoose = null;
+                            if (index !== 3) {
                                 this.buildUnit();
-                            } else {
-                                this.clearCanBuild();
                             }
+                        } else {
+                            this.unitChoose = 3;
+                            this.blockChoose = index;
+                            this.buildUnit();
                         }
+                        this.switchDisplay();
                     }
-                    this.switchDisplay();
                 };
             });
         } else {
-            this.clearCanBuild();
-            this.unitChoose = null;
-            this.blockChoose = null;
-            gameSelections.forEach((select, index) => {
-                select.onclick = (e) => {};
-                select.classList.remove('can-choose');
-                select.classList.remove('cant-choose');
-                select.innerHTML = `<img src="img/item/${GameBoard.resourceNames[index]}.png">${this.resources[GameBoard.resourceNames[index]]}`;
-            });
+            this.switchClosed();
         }
     }
 }

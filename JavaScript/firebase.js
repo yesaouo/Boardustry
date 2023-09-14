@@ -851,12 +851,12 @@ class GameBoard {
             img.className = `rotate${this.me}`;
             tile.appendChild(img);
             tile.classList.add(`player${this.me}`);
-            let x = index % this.width;
-            let y = Math.floor(index / this.width);
+            const x = index % this.width;
+            const y = Math.floor(index / this.width);
             if (this.unitChoose != 3) {
                 this.units.push({name: GameBoard.unitNames[this.unitChoose], player: this.me, posX: x, posY: y});
                 this.resourceMinusCost(GameBoard.unitNames[this.unitChoose]);
-            } else {
+            } else if (this.blockChoose !== null) {
                 this.units.push({name: "poly", player: this.me, posX: x, posY: y, block: GameBoard.blockNames[this.blockChoose+1]});
                 this.resourceMinusCost(GameBoard.blockNames[this.blockChoose+1]);
             }
@@ -936,22 +936,15 @@ class GameBoard {
     }
     switchDisplay() {
         if (this.isSwitch) {
-            let shows = (this.unitChoose && this.unitChoose === 3) ? GameBoard.blockNames.slice(1) : GameBoard.unitNames;
+            let shows = this.unitChoose === 3 ? GameBoard.blockNames.slice(1) : GameBoard.unitNames;
             gameSelections.forEach((select, index) => {
                 select.classList.remove('can-choose');
                 select.classList.remove('cant-choose');
                 select.innerHTML = `<img src="img/unit/${shows[index]}.png">`;
-                if (this.unitChoose) {
-                    if (this.unitChoose === 3) {
-                        if (this.blockChoose && this.blockChoose === index) {
-                            select.classList.add('can-choose');
-                        }
-                    } else if (this.unitChoose === index) {
-                        select.classList.add('can-choose');
-                    }
-                }
                 if (!this.checkResourcesEnough(shows[index])) {
                     select.classList.add('cant-choose');
+                } else if ((index !== 3 &&  index === this.unitChoose) || index === this.blockChoose) {
+                    select.classList.add('can-choose');
                 }
 
                 select.onclick = (e) => {
@@ -961,7 +954,6 @@ class GameBoard {
                     } else if (select.classList.contains('can-choose')) {
                         this.unitChoose = null;
                         this.blockChoose = null;
-                        this.clearCanBuild();
                         this.switchDisplay();
                     } else {
                         if (!this.unitChoose || (this.unitChoose && this.unitChoose !== 3)) {
